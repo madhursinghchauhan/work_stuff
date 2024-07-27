@@ -8,4 +8,4 @@ Flexible search queries
 
 $(/usr/libexec/java_home -v 11)
 
-export JAVA_HOME=$(/usr/libexec/java_home -v17)
+```export JAVA_HOME=$(/usr/libexec/java_home -v17)```
