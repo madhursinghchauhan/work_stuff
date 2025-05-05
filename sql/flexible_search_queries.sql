@@ -92,6 +92,13 @@ WHERE {cv:version}='Online'
 AND {cat:id}='<ProductCatalog>'
 AND ({c:code}='<category_code>' OR {c:name[en]}='<category_en_name>')
 
+--- ORDER
+SELECT * FROM {Order AS o
+JOIN OrderStatus As os ON {o:status}={os:pk}} 
+WHERE {o:totalTax} > 0
+AND {os:code} IN ('COMPLETED', 'DELIVERED')
+ORDER BY {o:creationtime} DESC
+
 
 
 
