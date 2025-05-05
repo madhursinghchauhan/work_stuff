@@ -50,7 +50,11 @@ SELECT {pk} FROM {ItemSyncTimestamp} WHERE {lastSyncSourceModifiedTime} <'1990-0
 
   -- FIND PRODUCT CATEGORY RELATION
   
-SELECT {p:code}, {c:code} FROM {CategoryProductRelation AS cpr JOIN Product AS p ON {cpr:target}={p:pk} JOIN Category AS c ON {cpr:source}={c:pk}} WHERE {p:code} = 'p12441'
+SELECT {p:code}, {c:code} 
+FROM {CategoryProductRelation AS cpr 
+JOIN Product AS p ON {cpr:target}={p:pk} 
+JOIN Category AS c ON {cpr:source}={c:pk}} 
+WHERE {p:code} = 'p12441'
 
 
 
@@ -58,6 +62,35 @@ SELECT {p:code}, {c:code} FROM {CategoryProductRelation AS cpr JOIN Product AS p
 
 SELECT {sfsc:name}, {si:qualifier} FROM {SolrIndex AS si LEFT JOIN SolrFacetSearchConfig AS sfsc ON {si:facetSearchConfig}={sfsc:pk}} WHERE {si:active} ='1'
 
+--- stock Level warehouse join
+SELECT {sl:productCode}, {w:code}, {sl:available}, {iss:code} 
+FROM {StockLevel AS sl 
+JOIN Warehouse AS w ON {sl:warehouse}={w:pk} 
+JOIN InStockStatus AS iss ON {sl:inStockStatus}={iss:pk}} 
+WHERE {sl:productCode}='<product_code>'
+
+SELECT {sl:available}, {wh:code} AS WarehouseCode, {sl:productcode}
+FROM {ZipCode AS zc}, {Warehouse AS wh}, {StockLevel AS sl}
+WHERE {zc:warehouse}={wh:pk}
+AND {sl:warehouse}={wh:pk}
+AND {zc:code}='<zip_code>'
+AND {sl:productcode}='<product_code>'
+
+
+--- BOOST RULES
+SELECT * 
+FROM {AsBoostRule AS br
+JOIN AsBoostOperator AS bo ON {br:operator}={bo:pk}
+JOIN AsBoostType as bt ON {br:boostType}={bt:pk}}
+
+SELECT *
+FROM {AsCategoryAwareSearchConfiguration AS casc
+JOIN Category AS c ON {casc:category}={c:pk}
+JOIN CatalogVersion AS cv ON {c:catalogVersion}={cv:pk}
+JOIN Catalog as cat ON {cv:catalog}={cat:pk}}
+WHERE {cv:version}='Online'
+AND {cat:id}='<ProductCatalog>'
+AND ({c:code}='<category_code>' OR {c:name[en]}='<category_en_name>')
 
 
 
