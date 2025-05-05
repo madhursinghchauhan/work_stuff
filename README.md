@@ -11,3 +11,8 @@ Flexible search queries
 $(/usr/libexec/java_home -v 11)
 
 ```export JAVA_HOME=$(/usr/libexec/java_home -v17)```
+
+
+
+# [Groovy](https://github.com/madhursinghchauhan/work_stuff/tree/main/groovy)
+# [Flexible Search / SQL](https://github.com/madhursinghchauhan/work_stuff/tree/main/sql)
